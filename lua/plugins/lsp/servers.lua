@@ -1,3 +1,4 @@
+-- https://neovim.io/doc/user/lsp.html
 local M = {}
 
 local lsp_utils = require "plugins.lsp.utils"

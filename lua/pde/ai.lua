@@ -50,7 +50,7 @@ return {
   {
     "Exafunction/codeium.vim",
     event = "InsertEnter",
-    enabled = true,
+    enabled = false,
     -- stylua: ignore
     config = function ()
       vim.g.codeium_disable_bindings = 1

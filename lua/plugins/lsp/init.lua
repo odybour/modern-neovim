@@ -13,6 +13,7 @@ return {
     opts = {
       servers = {
         dockerls = {},
+        bashls = {},
       },
       setup = {},
       format = {

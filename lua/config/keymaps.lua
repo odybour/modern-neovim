@@ -56,6 +56,23 @@ keymap("n", "<S-Right>", "<cmd>vertical resize +2<CR>")
 keymap("n", "]<Space>", "o<Esc>")
 keymap("n", "[<Space>", "O<Esc>")
 
+-- Map vi window-split key to <alt+w>, then map horizontal and vertical window split keys
+keymap("n", "<M-w>", "<C-w>")
+keymap("n", "<M-w>[", "<C-w>s")
+keymap("n", "<M-w>]", "<C-w>v")
+keymap("n", "<M-w>k", "<C-w><Up>")
+keymap("n", "<M-w>h", "<C-w><Left>")
+keymap("n", "<M-w>j", "<C-w><Down>")
+keymap("n", "<M-w>l", "<C-w><Right>")
+
+keymap("n", "J", "<cmd>:res +5<CR>")
+keymap("n", "K", "<cmd>:res -5<CR>")
+keymap("n", "L", "<cmd>:vertical resize +5<CR>")
+keymap("n", "H", "<cmd>:vertical resize -5<CR>")
+
+keymap("n", "_", "<C-w>K")
+keymap("n", "+", "<C-w>J")
+
 -- Auto indent
 keymap("n", "i", function()
   if #vim.fn.getline "." == 0 then
@@ -64,3 +81,8 @@ keymap("n", "i", function()
     return "i"
   end
 end, { expr = true })
+
+-- previous / next buffer keymap alias
+keymap("n", "<M-left>", "<C-o>")
+keymap("n", "<M-right>", "<C-i>")
+

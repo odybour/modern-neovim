@@ -1,18 +1,18 @@
 return {
   {
+    -- used to configure different color schemes per file type
     "folke/styler.nvim",
     enabled = false,
     event = "VeryLazy",
     opts = {
       themes = {
-        markdown = { colorscheme = "tokyonight" },
-        help = { colorscheme = "tokyonight" },
+        -- I use gruvbox-material everywhere..
       },
     },
   },
   {
     "folke/tokyonight.nvim",
-    lazy = false,
+    lazy = true,
     opts = {
       style = "moon",
       transparent = false,
@@ -64,7 +64,15 @@ return {
     },
   },
   { "rebelot/kanagawa.nvim", enabled = false, lazy = true, name = "kanagawa" },
-  { "sainnhe/gruvbox-material", enabled = false, lazy = true, name = "gruvbox-material" },
+  {
+    "sainnhe/gruvbox-material",
+    enabled = true,
+    lazy = false,
+    name = "gruvbox-material",
+    config = function()
+      vim.cmd.colorscheme "gruvbox-material"
+    end,
+  },
   {
     "sainnhe/everforest",
     enabled = false,

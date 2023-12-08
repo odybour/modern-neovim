@@ -5,6 +5,7 @@ function M.on_attach(client, buffer)
 
   -- stylua: ignore
   self:map("gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, { desc = "Goto Definition" })
+  self:map("<F3>", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, { desc = "Goto Definition" })
   self:map("gr", "Telescope lsp_references", { desc = "References" })
   self:map("gD", "Lspsaga peek_definition", { desc = "Peek Definition" })
   -- stylua: ignore

@@ -1,6 +1,6 @@
 local M = {}
 
-M.autoformat = true
+M.autoformat = false
 M.format_notify = false
 
 function M.toggle()

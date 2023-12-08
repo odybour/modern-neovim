@@ -117,6 +117,7 @@ function M.telescope(builtin, opts)
   return function()
     builtin = params.builtin
     opts = params.opts
+    -- this merges the tables, but uses the rightmost table value (if cwd is false, then it will stay as is)
     opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
     if builtin == "files" then
       if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
@@ -136,6 +137,9 @@ function M.telescope(builtin, opts)
         return true
       end
     end
+
+    -- vim.notify(vim.inspect(opts), nil, { title = plugin })
+    -- vim.notify(vim.inspect(builtin), nil, { title = plugin })
     require("telescope.builtin")[builtin](opts)
   end
 end

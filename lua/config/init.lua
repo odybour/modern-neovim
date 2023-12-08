@@ -13,7 +13,7 @@ return {
     flutter = false,
     go = false,
     html = true,
-    java = false,
+    java = true,
     json = true,
     julia = false,
     jupyter = false,

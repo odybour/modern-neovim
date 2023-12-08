@@ -31,6 +31,7 @@ return {
   },
   {
     "folke/flash.nvim",
+    enabled = false,
     event = "VeryLazy",
     vscode = true,
     opts = {},

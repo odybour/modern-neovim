@@ -96,11 +96,25 @@ return {
   {
     "numToStr/Comment.nvim",
     dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    keys = { { "gc", mode = { "n", "v" } }, { "gcc", mode = { "n", "v" } }, { "gbc", mode = { "n", "v" } } },
+    keys = { { "gc", mode = { "n", "v" } }, { "<C-l>", mode = { "n", "v" } }, { "<C-_>", mode = { "n", "v" } } },
     config = function(_, _)
       local opts = {
         ignore = "^$",
         pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+        ---LHS of toggle mappings in NORMAL mode
+        toggler = {
+          ---Line-comment toggle keymap
+          line = '<C-_>',
+          ---Block-comment toggle keymap
+          block = '<C-l>',
+        },
+        ---LHS of operator-pending mappings in NORMAL and VISUAL mode
+        opleader = {
+          ---Line-comment keymap
+          line = '<C-_>',
+          ---Block-comment keymap
+          block = '<C-l>',
+        },
       }
       require("Comment").setup(opts)
     end,

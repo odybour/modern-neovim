@@ -1,3 +1,4 @@
+-- https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -28,6 +29,7 @@ return {
     -- stylua: ignore
     keys = {
       { "<leader><space>", require("utils").find_files, desc = "Find Files" },
+      -- if current working directory contains .git, executes Git Files, otherwise Find Files
       { "<leader>ff", require("utils").telescope("files"), desc = "Find Files (Root Dir)" },
       { "<leader>fF", require("utils").telescope("files", { cwd = false }), desc = "Find Files (Cwd)" },
       { "<leader>gf", require("plugins.telescope.pickers").git_diff_picker, desc = "Diff Files" },
@@ -35,7 +37,7 @@ return {
       { "<leader>fb", "<cmd>Telescope buffers sort_mru=true ignore_current_buffer=true<cr>", desc = "Buffers" },
       { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Marks" },
       { "<leader>fc", "<cmd>cd %:p:h<cr>", desc = "Change WorkDir" },
-      { "<leader>fg", function() require("telescope").extensions.live_grep_args.live_grep_args() end, desc = "Live Grep", },
+      { "<leader>sw", function() require("telescope").extensions.live_grep_args.live_grep_args() end, desc = "Live Grep", },
       { "<leader>fr", "<cmd>Telescope file_browser<cr>", desc = "Browser" },
       { "<leader>fz", "<cmd>Telescope zoxide list<cr>", desc = "Recent Folders" },
       { "<leader>gc", "<cmd>Telescope conventional_commits<cr>", desc = "Conventional Commits" },
@@ -43,8 +45,8 @@ return {
       { "<leader>ps", "<cmd>Telescope repo list<cr>", desc = "Search" },
       { "<leader>hs", "<cmd>Telescope help_tags<cr>", desc = "Search" },
       { "<leader>pp", function() require("telescope").extensions.project.project { display_type = "minimal" } end, desc = "List", },
-      { "<leader>sw", require("utils").telescope("live_grep"), desc = "Grep (Root Dir)" },
-      { "<leader>sW", require("utils").telescope("live_grep", { cwd = false }), desc = "Grep (Cwd)" },
+      { "<leader>fg", require("utils").telescope("live_grep"), desc = "Grep (Root Dir)" },
+      { "<leader>fG", require("utils").telescope("live_grep", { cwd = false }), desc = "Grep (Cwd)" },
       { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
       { "<leader>sb", function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Buffer", },
       { "<leader>vo", "<cmd>Telescope aerial<cr>", desc = "Code Outline" },
@@ -238,6 +240,7 @@ return {
           git_files = {
             theme = "dropdown",
             previewer = false,
+            hidden = true,
           },
           buffers = {
             theme = "dropdown",
@@ -250,6 +253,10 @@ return {
                 ["<c-l>"] = custom_pickers.actions.set_folders,
               },
             },
+            -- additional arguments passed to rg
+            additional_args = function()
+              return { "--hidden", "-g", "!.git" }
+            end,
           },
         },
         extensions = {

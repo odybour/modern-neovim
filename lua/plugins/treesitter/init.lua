@@ -43,9 +43,8 @@ return {
         "vimdoc",
         "yaml",
       },
-      highlight = { enable = true, additional_vim_regex_highlighting = { "org", "markdown" } },
+      highlight = { enable = false, additional_vim_regex_highlighting = { "org", "markdown" } },
       indent = { enable = true },
-      context_commentstring = { enable = true, enable_autocmd = false },
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -118,7 +117,9 @@ return {
         end, opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
-
+      require("ts_context_commentstring").setup {
+        enable_autocmd = false,
+      }
       -- local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 
       -- -- vim way: ; goes to the direction you were moving.

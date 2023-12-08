@@ -31,7 +31,7 @@ opt.scrollback = 100000
 opt.scrolloff = 8
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 opt.shiftround = true
-opt.shiftwidth = 2
+opt.shiftwidth = 4
 opt.shortmess:append { W = true, I = true, c = true, C = true }
 opt.showcmd = false
 opt.showmode = false
@@ -42,7 +42,7 @@ opt.smartindent = true
 opt.splitbelow = true
 opt.splitkeep = "screen"
 opt.splitright = true
-opt.tabstop = 2
+opt.tabstop = 4
 opt.termguicolors = true
 opt.timeoutlen = 300
 opt.title = true
@@ -56,3 +56,7 @@ vim.g.maplocalleader = ","
 vim.g.markdown_recommended_style = 0
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+vim.g.auto_save = 1
+
+-- required by sainnhe/gruvbox-material color plugin, to select color palette 
+vim.g.gruvbox_material_foreground="mixed"
