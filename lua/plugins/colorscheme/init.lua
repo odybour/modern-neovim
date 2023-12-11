@@ -13,6 +13,7 @@ return {
   {
     "folke/tokyonight.nvim",
     lazy = true,
+    enabled = false,
     opts = {
       style = "moon",
       transparent = false,

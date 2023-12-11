@@ -37,12 +37,12 @@ local function get_workspace()
 end
 
 return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "java" })
-    end,
-  },
+  -- {
+  --   "nvim-treesitter/nvim-treesitter",
+  --   opts = function(_, opts)
+  --     vim.list_extend(opts.ensure_installed, { "java" })
+  --   end,
+  -- },
   {
     "williamboman/mason.nvim",
     opts = function(_, opts)
@@ -114,8 +114,6 @@ return {
           local config = {
             cmd = {
               "java",
-              -- "docker run --rm amazoncorretto:17.0.9 java",
-              -- "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
               "-Declipse.application=org.eclipse.jdt.ls.core.id1",
               "-Dosgi.bundles.defaultStartLevel=4",
               "-Declipse.product=org.eclipse.jdt.ls.core.product",
