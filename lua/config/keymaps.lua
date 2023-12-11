@@ -86,3 +86,4 @@ end, { expr = true })
 keymap("n", "<M-left>", "<C-o>")
 keymap("n", "<M-right>", "<C-i>")
 
+keymap("n", "<M-7>", "<cmd>:SymbolsOutline<CR>")

@@ -120,6 +120,7 @@ return {
               "-Dlog.protocol=true",
               "-Dlog.level=ALL",
               "-Xms1g",
+              "-Xmx4g",
               "--add-modules=ALL-SYSTEM",
               "--add-opens",
               "java.base/java.util=ALL-UNNAMED",

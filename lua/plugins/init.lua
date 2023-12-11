@@ -157,4 +157,14 @@ return {
     event = "VeryLazy",
     enabled = true,
   },
+  {
+    "simrat39/symbols-outline.nvim",
+    event = "VeryLazy",
+    enabled = true,
+    config = function()
+      require("symbols-outline").setup {
+        auto_close = false,
+      }
+    end,
+  },
 }
