@@ -87,3 +87,10 @@ keymap("n", "<M-left>", "<C-o>")
 keymap("n", "<M-right>", "<C-i>")
 
 keymap("n", "<M-7>", "<cmd>:SymbolsOutline<CR>")
+
+-- https://www.visidata.org/docs/man/
+keymap("n", "vd", ":lua vim.fn.system('tmux split-window -v vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
+
+-- keymap("n", "vd", "<cmd>vsplit term://vd <cfile><CR>")
+-- keymap("n", "vd", ":lua vsplit term://vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
+
