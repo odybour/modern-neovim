@@ -101,8 +101,8 @@ return {
         root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
         sources = {
           nls.builtins.formatting.shfmt.with {
-            -- Set the indentation level to 4 spaces
-            args = { "-i", "4" },
+            -- Set the indentation level to 2 spaces
+            args = { "-i", "2" },
           },
         },
       }
