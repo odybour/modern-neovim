@@ -1,0 +1,8 @@
+TODO: I have noticed the nvim becomes very slow after it is opened for a long time.
+TODO: I want a keyboard shortcut to kill tmux sessions (instead of alt-tab o, :kill-session)
+TODO: I want a keyboard shortcut to create tmux sessions (instead of alt-tab o, :new -s <name>)
+TODO: yaml folding (nvim-ufo plugin) issue. there is no provider selected for some reason. I see this when I execute :UfoInspect
+but if one is selected it works fine. Why nothing is selected??
+TODO: open meld for diff (like vd)
+
+
