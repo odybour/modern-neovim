@@ -112,6 +112,36 @@ function M.get_root()
   return root
 end
 
+-- I use the telescope live_grep_args extension so that it is possible to manipulate the live search interactively.
+-- I mean, give arguments like -ws , --iglob etc in search string and not in code.
+-- Ripgrep is used under the scenes. check available arguments: 
+-- https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/  
+-- The iglob comes from the live grep args extension: 
+-- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
+function M.find_in_files(builtin, opts)
+  -- get name of folder selected in nvim tree
+  local node = require("nvim-tree.api").tree.get_node_under_cursor()
+  -- vim.notify(vim.inspect(node))
+
+  -- get copied value from unnamed register
+  local yanked_value = vim.fn.getreg ""
+
+  local lga = require("telescope").extensions.live_grep_args
+
+  local default_text_value = string.format('"%s" -ws', yanked_value)
+
+  if node.type == "directory" then
+    local dir_name = node.name
+    default_text_value = default_text_value .. string.format(" --iglob=**/%s/**/*", dir_name)
+  else
+    default_text_value = default_text_value .. " --iglob=*"
+  end
+
+  lga.live_grep_args {
+    default_text = default_text_value,
+  }
+end
+
 function M.telescope(builtin, opts)
   local params = { builtin = builtin, opts = opts }
   return function()

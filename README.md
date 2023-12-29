@@ -242,8 +242,6 @@ Semantic highlighting:
 
 <https://gist.github.com/swarn/fb37d9eefe1bc616c2a7e476c0bc0316>
 
-### Logging
-
 ### LSP
 
 In the configuration of lazy vim (`lazy.lua`), we import all plugin specs contained in folders `plugins` and `pde`. The `pde` folder contains many LSP configurations for different languages. They will be fetched by using the `config.pde` Lua table, contained in the `config/init.lua` file. Check this:
@@ -514,3 +512,8 @@ require("telescope.builtin").live_grep(
 ~/.local/state/modern-neovim
 ~/.local/share/modern-neovim
 ~/.cache/modern-neovim
+
+say you want to debug/log something. Use vim notify to print the message (e.g. lua table).
+Then use nvim-notify telescope extension to view notification history (with <leader> fn).
+
+    -- vim.notify(vim.inspect(require("nvim-tree.api").tree.get_node_under_cursor()), nil)

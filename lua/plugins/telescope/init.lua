@@ -38,6 +38,8 @@ return {
       { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Marks" },
       { "<leader>fc", "<cmd>cd %:p:h<cr>", desc = "Change WorkDir" },
       { "<leader>sw", function() require("telescope").extensions.live_grep_args.live_grep_args() end, desc = "Live Grep", },
+      { "<leader>fn", function() require("telescope").extensions.notify.notify() end, desc = "Notification History", },
+      { "<leader>se", function() require "telescope-live-grep-args.shortcuts".grep_word_under_cursor({postfix=" --iglob *"}) end, desc = "Live Grep Word", },
       { "<leader>fr", "<cmd>Telescope file_browser<cr>", desc = "Browser" },
       { "<leader>fz", "<cmd>Telescope zoxide list<cr>", desc = "Recent Folders" },
       { "<leader>gc", "<cmd>Telescope conventional_commits<cr>", desc = "Conventional Commits" },
@@ -45,13 +47,16 @@ return {
       { "<leader>ps", "<cmd>Telescope repo list<cr>", desc = "Search" },
       { "<leader>hs", "<cmd>Telescope help_tags<cr>", desc = "Search" },
       { "<leader>pp", function() require("telescope").extensions.project.project { display_type = "minimal" } end, desc = "List", },
-      { "<leader>fg", require("utils").telescope("live_grep"), desc = "Grep (Root Dir)" },
+      { "<leader>si", require("utils").telescope("live_grep"), desc = "Grep (Root Dir)" },
+      { "<leader>fg", function() require("utils").find_in_files() end, desc = "Find in Files" },
       { "<leader>fG", require("utils").telescope("live_grep", { cwd = false }), desc = "Grep (Cwd)" },
       { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
       { "<leader>sb", function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Buffer", },
       { "<leader>vo", "<cmd>Telescope aerial<cr>", desc = "Code Outline" },
+      { "<leader>fp", function() require("telescope.builtin").live_grep({search_dirs={vim.fn.expand("%:p")}}) end, desc = "Find in File", },
       { "<leader>zc", function() require("telescope.builtin").colorscheme({enable_preview = true}) end, desc = "Colorscheme", },
       { "<leader>su", function() require("telescope.builtin").live_grep({ search_dirs = {vim.fs.dirname(vim.fn.expand("%")) }}) end , desc = "Grep (Current File Path)" },
+
     },
     config = function(_, _)
       local telescope = require "telescope"
@@ -60,6 +65,7 @@ return {
       local actions_layout = require "telescope.actions.layout"
       local transform_mod = require("telescope.actions.mt").transform_mod
       local custom_pickers = require "plugins.telescope.pickers"
+      local lga_actions = require "telescope-live-grep-args.actions"
       local custom_actions = transform_mod {
 
         -- File path
@@ -269,6 +275,20 @@ return {
           project = {
             hidden_files = false,
             theme = "dropdown",
+          },
+          live_grep_args = {
+            auto_quoting = true, -- enable/disable auto-quoting
+            -- define mappings, e.g.
+            mappings = { -- extend mappings
+              i = {
+                ["<C-k>"] = lga_actions.quote_prompt(),
+                ["<C-i>"] = lga_actions.quote_prompt { postfix = " --iglob *" },
+              },
+            },
+            -- ... also accepts theme settings, for example:
+            -- theme = "dropdown", -- use dropdown theme
+            -- theme = { }, -- use own theme spec
+            -- layout_config = { mirror=true }, -- mirror preview pane
           },
         },
       }
