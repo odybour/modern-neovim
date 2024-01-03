@@ -90,6 +90,9 @@ keymap("n", "<M-7>", "<cmd>:SymbolsOutline<CR>")
 
 -- https://www.visidata.org/docs/man/
 keymap("n", "vd", ":lua vim.fn.system('tmux split-window -v vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
+-- if you want to do this with vsplit it would be something like the following. I leave it here just in case..
+-- keymap("n", "vd", "<cmd>vsplit term://vd <cfile><CR>")
+-- keymap("n", "vd", ":lua vsplit term://vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
 
 function get_yanked_value()
   return require("utils").get_register_value { sanitize = true }
@@ -99,5 +102,28 @@ keymap("n", "<leader>sr", function()
  return ":cdo s/" .. get_yanked_value() .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
 end, {expr = true})
 
--- keymap("n", "vd", "<cmd>vsplit term://vd <cfile><CR>")
--- keymap("n", "vd", ":lua vsplit term://vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
+
+function get_word_under_cursor()
+    return vim.fn.expand('<cword>')
+end
+
+keymap("n", "<leader>re", function() 
+ return ":%s /" .. get_word_under_cursor() .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
+end, {expr = true})
+
+-- this does not seem to work.. what are the <, >? I switched to get_word_under_cursor. much easier to implement using cword
+-- I leave it here in case I need this in the future.. don't know.
+local function get_visual_selection()
+  -- local s_start = vim.fn.getpos("'<")
+  -- local s_end = vim.fn.getpos("'>")
+  -- local n_lines = math.abs(s_end[2] - s_start[2]) + 1
+  -- local lines = vim.api.nvim_buf_get_lines(0, s_start[2] - 1, s_end[2], false)
+  -- lines[1] = string.sub(lines[1], s_start[3], -1)
+  -- if n_lines == 1 then
+  --   lines[n_lines] = string.sub(lines[n_lines], 1, s_end[3] - s_start[3] + 1)
+  -- else
+  --   lines[n_lines] = string.sub(lines[n_lines], 1, s_end[3])
+  -- end
+  -- return table.concat(lines, '\n')
+end
+
