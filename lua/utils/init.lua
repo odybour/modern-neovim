@@ -112,21 +112,41 @@ function M.get_root()
   return root
 end
 
+function M.get_register_value(opts)
+  -- this merges the tables, but uses the rightmost table value (if cwd is false, then it will stay as is)
+  opts = vim.tbl_deep_extend("force", { sanitize = false }, opts or {})
+
+  -- get copied value from unnamed register
+  local yanked_value = vim.fn.getreg ""
+
+  if opts.sanitize then
+    -- if nil, replace with empty string
+    yanked_value = yanked_value or ""
+    -- Replace newline characters with an empty string
+    yanked_value = yanked_value:gsub("\n", "")
+    -- Replace double quotes with \"
+    yanked_value = yanked_value:gsub('"', '\\"')
+    -- Truncate the yanked value to a maximum of 200 characters
+    yanked_value = yanked_value:sub(1, 200)
+  end
+
+  return yanked_value
+end
+
 -- I use the telescope live_grep_args extension so that it is possible to manipulate the live search interactively.
 -- I mean, give arguments like -ws , --iglob etc in search string and not in code.
--- Ripgrep is used under the scenes. check available arguments: 
--- https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/  
--- The iglob comes from the live grep args extension: 
+-- Ripgrep is used under the scenes. check available arguments:
+-- https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/
+-- The iglob comes from the live grep args extension:
 -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
 function M.find_in_files(builtin, opts)
   -- get name of folder selected in nvim tree
   local node = require("nvim-tree.api").tree.get_node_under_cursor()
   -- vim.notify(vim.inspect(node))
 
-  -- get copied value from unnamed register
-  local yanked_value = vim.fn.getreg ""
-
   local lga = require("telescope").extensions.live_grep_args
+
+  local yanked_value = M.get_register_value { sanitize = true }
 
   local default_text_value = string.format('"%s" -ws', yanked_value)
 

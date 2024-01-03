@@ -91,6 +91,13 @@ keymap("n", "<M-7>", "<cmd>:SymbolsOutline<CR>")
 -- https://www.visidata.org/docs/man/
 keymap("n", "vd", ":lua vim.fn.system('tmux split-window -v vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
 
+function get_yanked_value()
+  return require("utils").get_register_value { sanitize = true }
+end
+
+keymap("n", "<leader>sr", function() 
+ return ":cdo s/" .. get_yanked_value() .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
+end, {expr = true})
+
 -- keymap("n", "vd", "<cmd>vsplit term://vd <cfile><CR>")
 -- keymap("n", "vd", ":lua vsplit term://vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
-

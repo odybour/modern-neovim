@@ -465,6 +465,26 @@ Check: [lazy.nvim Configuration](https://github.com/folke/lazy.nvim#%EF%B8%8F-co
 
 These examples demonstrate some of the basic ways Lua tables can be used, including simple arrays, dictionaries, mixed-type tables, and nested tables. Lua tables are quite flexible and can be adapted to various data structures and use cases.
 
+#### Table Functions
+
+* table extend:
+
+    function M.get_register_value(opts)
+    -- this merges the tables, but uses the rightmost table value (if cwd is false, then it will stay as is)
+    opts = vim.tbl_deep_extend("force", { sanitize = false }, opts or {})
+
+* table map:
+
+    local formatters = M.get_formatters(buf)
+    local client_ids = vim.tbl_map(function(client)
+        return client.id
+    end, formatters.active)
+
+* table contains:
+
+    local keys = { "<CR>", "n", "N", "*", "#", "?", "/" }
+    local new_hlsearch = vim.tbl_contains(keys, vim.fn.keytrans(char))
+
 ### Completion
 
 This is achieved using the following two plugins:
@@ -517,3 +537,4 @@ say you want to debug/log something. Use vim notify to print the message (e.g. l
 Then use nvim-notify telescope extension to view notification history (with <leader> fn).
 
     -- vim.notify(vim.inspect(require("nvim-tree.api").tree.get_node_under_cursor()), nil)
+
