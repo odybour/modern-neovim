@@ -143,12 +143,14 @@ end
 -- The iglob comes from the live grep args extension:
 -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
 function M.find_in_files(opts)
-
   local lga = require("telescope").extensions.live_grep_args
+  -- get name of folder selected in nvim tree
+  local node = require("nvim-tree.api").tree.get_node_under_cursor()
+  -- vim.notify(vim.inspect(node))
 
   local search_value
 
-  if opts.search_key_source == "yank" then
+  if opts.search_key_source == "yank" or node.type == "directory" then
     search_value = M.get_register_value { sanitize = true }
   elseif opts.search_key_source == "cword" then
     search_value = vim.fn.expand "<cword>"
@@ -158,9 +160,6 @@ function M.find_in_files(opts)
 
   local search_expression = string.format('"%s" -ws', search_value)
 
-  -- get name of folder selected in nvim tree
-  local node = require("nvim-tree.api").tree.get_node_under_cursor()
-  -- vim.notify(vim.inspect(node))
   if node.type == "directory" then
     local dir_name = node.name
     search_expression = search_expression .. string.format(" --iglob=**/%s/**/*", dir_name)
@@ -169,6 +168,7 @@ function M.find_in_files(opts)
   end
 
   local on_complete_callback = {}
+  -- note: I am also doing this using a <C-r> mapping in live args extension. I leave this code here to show how one can register an action to execute automatically after a search is complete
   if opts.replace == true then
     on_complete_callback = {
       function(picker)

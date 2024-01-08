@@ -49,9 +49,10 @@ return {
       -- { "<leader>fr", "<cmd>Telescope file_browser<cr>", desc = "Browser" },
       -- { "<leader>fg", require("utils").telescope("live_grep"), desc = "Grep (Root Dir)" },
       { "<leader>fg", function() require("utils").find_in_files({ search_key_source = "cword" }) end, desc = "Find in Files" },
+      { "<leader>fy", function() require("utils").find_in_files({ search_key_source = "yank" }) end, desc = "Find in Files" },
+      -- not really needed since I have now created a live args extension <C-r> mapping
       { "<leader>fr", function() require("utils").find_in_files({ search_key_source = "cword", replace = true }) end, desc = "Find/Replace in Files" },
-      { "<leader>si", function() require("utils").find_in_files({ search_key_source = "yank" }) end, desc = "Find in Files" },
-      { "<leader>sr", function() require("utils").find_in_files({ search_key_source = "yank", replace = true }) end, desc = "Find/Replace in Files" },
+      -- not really needed since I have now created a <C-r> mapping
       { "<leader>fG", require("utils").telescope("live_grep", { cwd = false }), desc = "Grep (Cwd)" },
       { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
       { "<leader>sb", function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Buffer", },
@@ -170,6 +171,21 @@ return {
           local utils = require "utils"
           utils.open_term(nil, { direction = "float", dir = file_dir })
         end,
+
+        replace_fn = function(prompt_bufnr)
+          local current_picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+          local prompt = current_picker:_get_prompt()
+          local search_value = prompt:match '"([^"]+)"'
+
+          local actions = require "telescope.actions"
+          actions.send_to_qflist(prompt_bufnr)
+          actions.open_qflist()
+
+          local replace_cmd = ":cdo %s/" .. search_value .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
+          -- the replace termcodes is used to translate <left> into moving the cursor to the left
+          local keys = vim.api.nvim_replace_termcodes(replace_cmd, false, false, true)
+          vim.api.nvim_feedkeys(keys, "n", true)
+        end,
       }
 
       local mappings = {
@@ -286,6 +302,7 @@ return {
               i = {
                 ["<C-k>"] = lga_actions.quote_prompt(),
                 ["<C-i>"] = lga_actions.quote_prompt { postfix = " --iglob *" },
+                ["<C-r>"] = custom_actions.replace_fn,
               },
             },
             -- ... also accepts theme settings, for example:
