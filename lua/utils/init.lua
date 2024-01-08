@@ -91,6 +91,7 @@ function M.get_root()
       end, workspace) or client.config.root_dir and { client.config.root_dir } or {}
       for _, p in ipairs(paths) do
         local r = vim.loop.fs_realpath(p)
+
         if path:find(r, 1, true) then
           roots[#roots + 1] = r
         end
@@ -117,21 +118,23 @@ function M.get_register_value(opts)
   opts = vim.tbl_deep_extend("force", { sanitize = false }, opts or {})
 
   -- get copied value from unnamed register
-  local yanked_value = vim.fn.getreg ""
+  local search_value = vim.fn.getreg ""
 
   if opts.sanitize then
     -- if nil, replace with empty string
-    yanked_value = yanked_value or ""
+    search_value = search_value or ""
     -- Replace newline characters with an empty string
-    yanked_value = yanked_value:gsub("\n", "")
+    search_value = search_value:gsub("\n", "")
     -- Replace double quotes with \"
-    yanked_value = yanked_value:gsub('"', '\\"')
+    search_value = search_value:gsub('"', '\\"')
     -- Truncate the yanked value to a maximum of 200 characters
-    yanked_value = yanked_value:sub(1, 200)
+    search_value = search_value:sub(1, 200)
   end
 
-  return yanked_value
+  return search_value
 end
+
+-- otan kaleitai apo fg, tote sta opts prepei na orizei to search_value na mhn einai yank, alla cword
 
 -- I use the telescope live_grep_args extension so that it is possible to manipulate the live search interactively.
 -- I mean, give arguments like -ws , --iglob etc in search string and not in code.
@@ -139,26 +142,51 @@ end
 -- https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/
 -- The iglob comes from the live grep args extension:
 -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
-function M.find_in_files(builtin, opts)
-  -- get name of folder selected in nvim tree
-  local node = require("nvim-tree.api").tree.get_node_under_cursor()
-  -- vim.notify(vim.inspect(node))
+function M.find_in_files(opts)
 
   local lga = require("telescope").extensions.live_grep_args
 
-  local yanked_value = M.get_register_value { sanitize = true }
+  local search_value
 
-  local default_text_value = string.format('"%s" -ws', yanked_value)
+  if opts.search_key_source == "yank" then
+    search_value = M.get_register_value { sanitize = true }
+  elseif opts.search_key_source == "cword" then
+    search_value = vim.fn.expand "<cword>"
+  else
+    search_value = ""
+  end
 
+  local search_expression = string.format('"%s" -ws', search_value)
+
+  -- get name of folder selected in nvim tree
+  local node = require("nvim-tree.api").tree.get_node_under_cursor()
+  -- vim.notify(vim.inspect(node))
   if node.type == "directory" then
     local dir_name = node.name
-    default_text_value = default_text_value .. string.format(" --iglob=**/%s/**/*", dir_name)
+    search_expression = search_expression .. string.format(" --iglob=**/%s/**/*", dir_name)
   else
-    default_text_value = default_text_value .. " --iglob=*"
+    search_expression = search_expression .. " --iglob=*"
+  end
+
+  local on_complete_callback = {}
+  if opts.replace == true then
+    on_complete_callback = {
+      function(picker)
+        local prompt_bufnr = picker.prompt_bufnr
+        local actions = require "telescope.actions"
+        actions.send_to_qflist(prompt_bufnr)
+        actions.open_qflist()
+        local replace_cmd = ":cdo %s/" .. search_value .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
+        -- the replace termcodes is used to translate <left> into moving the cursor to the left
+        local keys = vim.api.nvim_replace_termcodes(replace_cmd, false, false, true)
+        vim.api.nvim_feedkeys(keys, "n", true)
+      end,
+    }
   end
 
   lga.live_grep_args {
-    default_text = default_text_value,
+    default_text = search_expression,
+    on_complete = on_complete_callback,
   }
 end
 

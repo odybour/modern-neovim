@@ -94,25 +94,17 @@ keymap("n", "vd", ":lua vim.fn.system('tmux split-window -v vd ' .. require('nvi
 -- keymap("n", "vd", "<cmd>vsplit term://vd <cfile><CR>")
 -- keymap("n", "vd", ":lua vsplit term://vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
 
-function get_yanked_value()
-  return require("utils").get_register_value { sanitize = true }
-end
-
-keymap("n", "<leader>sr", function() 
- return ":cdo s/" .. get_yanked_value() .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
-end, {expr = true})
-
+keymap("n", "<leader>re", function()
+  return ":%s /" .. get_word_under_cursor() .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
+end, { expr = true })
 
 function get_word_under_cursor()
-    return vim.fn.expand('<cword>')
+  return vim.fn.expand "<cword>"
 end
-
-keymap("n", "<leader>re", function() 
- return ":%s /" .. get_word_under_cursor() .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
-end, {expr = true})
 
 -- this does not seem to work.. what are the <, >? I switched to get_word_under_cursor. much easier to implement using cword
 -- I leave it here in case I need this in the future.. don't know.
+-- UPDATE: there is a grep_visual_selection implementation (argument) in telescope live grep args plugin. worth checking maybe
 local function get_visual_selection()
   -- local s_start = vim.fn.getpos("'<")
   -- local s_end = vim.fn.getpos("'>")
@@ -126,4 +118,3 @@ local function get_visual_selection()
   -- end
   -- return table.concat(lines, '\n')
 end
-
