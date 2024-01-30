@@ -60,3 +60,10 @@ vim.g.auto_save = 1
 
 -- required by sainnhe/gruvbox-material color plugin, to select color palette 
 vim.g.gruvbox_material_foreground="mixed"
+
+-- Required by 3rd/image.nvim - not using it at the moment
+-- Given that lazyvim does not integrate with rocks, I have installed it manually like so:
+-- luarocks --local --lua-version=5.1 install magick
+-- I also installed lua version 5.1.
+-- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua;"
+-- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
