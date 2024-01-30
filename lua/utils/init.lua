@@ -151,7 +151,7 @@ function M.find_in_files(opts)
   local search_value
   local search_expression
 
-  if opts.search_key_source == "yank" or node.type == "directory" then
+  if opts.search_key_source == "yank" then
     search_value = M.get_register_value { sanitize = true }
     search_expression = string.format('"%s" -ws', search_value)
   elseif opts.search_key_source == "cword" then
