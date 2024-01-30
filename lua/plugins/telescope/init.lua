@@ -48,7 +48,7 @@ return {
       { "<leader>pp", function() require("telescope").extensions.project.project { display_type = "minimal" } end, desc = "List", },
       -- { "<leader>fr", "<cmd>Telescope file_browser<cr>", desc = "Browser" },
       -- { "<leader>fg", require("utils").telescope("live_grep"), desc = "Grep (Root Dir)" },
-      { "<leader>fg", function() require("utils").find_in_files({ search_key_source = "cword" }) end, desc = "Find in Files" },
+      { "<leader>fg", function() require("utils").find_in_files({ search_key_source = "" }) end, desc = "Find in Files" },
       { "<leader>fy", function() require("utils").find_in_files({ search_key_source = "yank" }) end, desc = "Find in Files" },
       -- not really needed since I have now created a live args extension <C-r> mapping
       { "<leader>fr", function() require("utils").find_in_files({ search_key_source = "cword", replace = true }) end, desc = "Find/Replace in Files" },

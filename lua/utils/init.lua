@@ -149,16 +149,18 @@ function M.find_in_files(opts)
   -- vim.notify(vim.inspect(node))
 
   local search_value
+  local search_expression
 
   if opts.search_key_source == "yank" or node.type == "directory" then
     search_value = M.get_register_value { sanitize = true }
+    search_expression = string.format('"%s" -ws', search_value)
   elseif opts.search_key_source == "cword" then
     search_value = vim.fn.expand "<cword>"
+    search_expression = string.format('"%s" -ws', search_value)
   else
     search_value = ""
+    search_expression = string.format '""'
   end
-
-  local search_expression = string.format('"%s" -ws', search_value)
 
   if node.type == "directory" then
     local dir_name = node.name
