@@ -94,6 +94,8 @@ keymap("n", "vd", ":lua vim.fn.system('tmux split-window -v vd ' .. require('nvi
 -- keymap("n", "vd", "<cmd>vsplit term://vd <cfile><CR>")
 -- keymap("n", "vd", ":lua vsplit term://vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
 
+keymap("n", "vm", ":lua vim.fn.system('gwenview ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
+
 keymap("n", "<leader>re", function()
   return ":.,$s/" .. get_word_under_cursor() .. "//gc | update<left><left><left><left><left><left><left><left><left><left><left><left>"
 end, { expr = true })

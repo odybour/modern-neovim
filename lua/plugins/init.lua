@@ -169,6 +169,7 @@ return {
     end,
   },
   -- problem when switching between tmux sessions. image does not go away - might revisit in future.
+  -- what is more, i am not able to resize, crop, full screen, copy, whatever... it is a MUST to be able to do all these.
   -- {
   -- "3rd/image.nvim",
   -- event = "VeryLazy",
