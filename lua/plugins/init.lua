@@ -66,6 +66,7 @@ return {
       require("notify").setup(opts)
       vim.notify = require "notify"
     end,
+    enabled = false,
   },
   {
     "monaqa/dial.nvim",

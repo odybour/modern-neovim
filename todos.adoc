@@ -6,3 +6,5 @@ but if one is selected it works fine. Why nothing is selected??
 TODO: open meld for diff (like vd)
 
 
+TODO: show image
+https://github.com/edluffy/hologram.nvim?tab=readme-ov-file
