@@ -310,6 +310,9 @@ return {
             -- theme = { }, -- use own theme spec
             -- layout_config = { mirror=true }, -- mirror preview pane
           },
+          advanced_git_search = {
+            -- See Config
+          },
         },
       }
       telescope.setup(opts)
@@ -328,6 +331,7 @@ return {
       telescope.load_extension "zoxide"
       telescope.load_extension "live_grep_args"
       telescope.load_extension "scope"
+      telescope.load_extension "advanced_git_search"
 
       -- Highlights
       local fg_bg = require("utils").fg_bg

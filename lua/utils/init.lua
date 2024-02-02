@@ -152,7 +152,8 @@ function M.find_in_files(opts)
   local search_expression
 
   if opts.search_key_source == "yank" then
-    search_value = M.get_register_value { sanitize = true }
+    -- search_value = M.get_register_value { sanitize = true }
+    search_value = "whatever"
     search_expression = string.format('"%s" -ws', search_value)
   elseif opts.search_key_source == "cword" then
     search_value = vim.fn.expand "<cword>"

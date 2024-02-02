@@ -94,6 +94,22 @@ keymap("n", "vd", ":lua vim.fn.system('tmux split-window -v vd ' .. require('nvi
 -- keymap("n", "vd", "<cmd>vsplit term://vd <cfile><CR>")
 -- keymap("n", "vd", ":lua vsplit term://vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
 
+-- execute a meld diff - there is also vimdiff
+-- what about fugitive or diffview
+keymap("n", "vp", function()
+  local utils = require "utils"
+  local absolute_path_file_1 = utils.get_register_value { sanitize = true }
+
+  local tree = require("nvim-tree.api").tree
+  local is_tree_buf = tree.is_tree_buf()
+
+  if is_tree_buf then
+    local absolute_path_file_2 = require("nvim-tree.api").tree.get_node_under_cursor().absolute_path
+    vim.fn.system("meld " .. absolute_path_file_1 .. " " .. absolute_path_file_2)
+    -- vim.fn.system("vimdiff " .. absolute_path_file_1 .. " " .. absolute_path_file_2)
+  end
+end, { expr = true })
+
 keymap("n", "vm", function()
   local utils = require "utils"
   local tree = require("nvim-tree.api").tree

@@ -8,3 +8,33 @@ TODO: open meld for diff (like vd)
 
 TODO: show image
 https://github.com/edluffy/hologram.nvim?tab=readme-ov-file
+
+TODO
+Errors: when opening large json file:
+(after telescope fg and search for iana-hardware:sensor)
+/home/bournas/programming/nokia/extensions/blueprints/profiles/altiplano/profile-cache/LS-DF/src/main/resources/resources/profile.json
+
+Error executing lua callback: ....local/share/modern-neovim/lazy/alpha-nvim/lua/alpha.lua:627: Invalid buffer id: 1
+stack traceback:
+	[C]: in function 'nvim_buf_set_option'
+	....local/share/modern-neovim/lazy/alpha-nvim/lua/alpha.lua:627: in function 'draw'
+	....local/share/modern-neovim/lazy/alpha-nvim/lua/alpha.lua:662: in function 'redraw'
+	....local/share/modern-neovim/lazy/alpha-nvim/lua/alpha.lua:536: in function <....local/share/modern-neovim/lazy/alpha-nvim/lua/alpha.lua:536>
+
+Error detected while processing WinResized Autocommands for "*":
+
+occurs if you start search from nvim tree!
+occurs also if you do <leader>ff
+Perhaps it has to do with the fact that I have a VimEnter autocommand to toggle nvim tree. or not...
+
+TODO
+I want to be able to filter quickfix so that I exclude from findings everything that has "test" in the path.
+(search for instance for profile in the extensions repository. you get so many results)
+this is not even supported by IntelliJ
+Actually, the best would be to filter by profile-cache (because this is the directory I want to search into)
+
+how to search file in folder (other way?) -with glob ?
+TODO 
+open last file opened after restart neovim (primeagen plugin?)
+
+
