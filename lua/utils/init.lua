@@ -165,6 +165,38 @@ function M.find_in_files(opts)
   if node.type == "directory" then
     local dir_name = node.name
     search_expression = search_expression .. string.format(" --iglob=**/%s/**/*", dir_name)
+
+    -- The below is used because if no buffer is loaded prior to a search (this can happen if you search from nvim-tree directory),
+    -- then strange errors appear and nvim becomes unresponsive
+    local is_buffer_loaded = false
+    local buffers = vim.api.nvim_list_bufs()
+    -- Iterate over the buffer handles to find open buffers
+    for _, buf in ipairs(buffers) do
+      -- Check if the buffer is loaded and listed
+      if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
+        is_buffer_loaded = true
+
+        local loaded_buffer = "Buffer ID: " .. buf .. ", Name: " .. vim.api.nvim_buf_get_name(buf)
+        -- This is left for debugging
+        -- vim.notify(loaded_buffer)
+      end
+    end
+
+    -- vim.notify("Buffer Loaded: " .. tostring(is_buffer_loaded))
+
+    if not is_buffer_loaded then
+      local new_buf = vim.api.nvim_create_buf(true, false)
+
+      -- Set the newly created buffer in the window of the first buffer
+      -- (hopefully this will replace the No Name buffer when nvim first starts without a file)
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_get_buf(win) == 1 then
+          first_buffer_win = win
+          break
+        end
+      end
+      vim.api.nvim_win_set_buf(first_buffer_win, new_buf)
+    end
   else
     search_expression = search_expression
   end
