@@ -151,23 +151,22 @@ function M.find_in_files(opts)
   local search_value
   local search_expression
 
-  if opts.search_key_source == "yank" then
-    -- search_value = M.get_register_value { sanitize = true }
-    search_value = "whatever"
-    search_expression = string.format('"%s" -ws', search_value)
+  if opts.search_key_source == "yank" or node.type == "directory" then
+    search_value = M.get_register_value { sanitize = true }
+    search_expression = string.format('"%s"', search_value)
   elseif opts.search_key_source == "cword" then
     search_value = vim.fn.expand "<cword>"
-    search_expression = string.format('"%s" -ws', search_value)
+    search_expression = string.format('"%s"', search_value)
   else
     search_value = ""
-    search_expression = string.format '""'
+    search_expression = search_value
   end
 
   if node.type == "directory" then
     local dir_name = node.name
     search_expression = search_expression .. string.format(" --iglob=**/%s/**/*", dir_name)
   else
-    search_expression = search_expression .. " --iglob=*"
+    search_expression = search_expression
   end
 
   local on_complete_callback = {}
@@ -187,6 +186,7 @@ function M.find_in_files(opts)
     }
   end
 
+  -- vim.notify(search_expression)
   lga.live_grep_args {
     default_text = search_expression,
     on_complete = on_complete_callback,

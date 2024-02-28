@@ -51,7 +51,7 @@ return {
       { "<leader>fg", function() require("utils").find_in_files({ search_key_source = "" }) end, desc = "Find in Files" },
       { "<leader>fy", function() require("utils").find_in_files({ search_key_source = "yank" }) end, desc = "Find in Files" },
       -- not really needed since I have now created a live args extension <C-r> mapping
-      { "<leader>fr", function() require("utils").find_in_files({ search_key_source = "cword", replace = true }) end, desc = "Find/Replace in Files" },
+      { "<leader>fr", function() require("utils").find_in_files({ search_key_source = "cword" }) end, desc = "Find/Replace in Files" },
       -- not really needed since I have now created a <C-r> mapping
       { "<leader>fG", require("utils").telescope("live_grep", { cwd = false }), desc = "Grep (Cwd)" },
       { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
@@ -210,6 +210,7 @@ return {
 
       local opts = {
         defaults = {
+          results_title = "Goodies",
           prompt_prefix = icons.ui.Telescope .. " ",
           selection_caret = icons.ui.Forward .. " ",
           mappings = mappings,
@@ -296,6 +297,7 @@ return {
             theme = "dropdown",
           },
           live_grep_args = {
+            prompt_title = "Live Grep - Tip: Use ?, -ws, --iglob=dir/*, wrap with \"\" or <C-k>, <C-r> to replace",
             auto_quoting = true, -- enable/disable auto-quoting
             -- define mappings, e.g.
             mappings = { -- extend mappings
