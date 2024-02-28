@@ -297,7 +297,7 @@ return {
             theme = "dropdown",
           },
           live_grep_args = {
-            prompt_title = "Live Grep - Tip: Use ?, -ws, --iglob=dir/*, wrap with \"\" or <C-k>, <C-r> to replace",
+            prompt_title = "Live Grep - Tip: Use ?, -ws, --iglob=dir/*, wrap with \"\" or <C-k>, <C-r> to replace. cdo to cfdo (then a) for Replace All",
             auto_quoting = true, -- enable/disable auto-quoting
             -- define mappings, e.g.
             mappings = { -- extend mappings
