@@ -134,6 +134,42 @@ function M.get_register_value(opts)
   return search_value
 end
 
+-- The function loads a buffer in the window of the buffer with ID 1. This is usually required because if no buffer is loaded prior to
+-- a telescope search, then strange errors appear and nvim becomes unresponsive.
+-- The buffer with ID 1 is usually the first one opened (NVIM startup screen)
+function M.load_buffer()
+  local is_buffer_loaded = false
+  local buffers = vim.api.nvim_list_bufs()
+  -- Iterate over th ebuffer handles to find open buffers
+
+  for _, buf in ipairs(buffers) do
+    -- Check if the buffer is loaded and listed
+    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
+      is_buffer_loaded = true
+
+      local loaded_buffer = "Buffer ID: " .. buf .. ", Name: " .. vim.api.nvim_buf_get_name(buf)
+      -- This is left for debugging
+      -- vim.notify(loaded_buffer)
+    end
+  end
+
+  -- vim.notify("Buffer Loaded: " .. tostring(is_buffer_loaded))
+
+  if not is_buffer_loaded then
+    local new_buf = vim.api.nvim_create_buf(true, false)
+
+    -- Set the newly created buffer in the window of the first buffer
+    -- (hopefully this will replace the No Name buffer when nvim first starts without a file)
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win) == 1 then
+        first_buffer_win = win
+        break
+      end
+    end
+    vim.api.nvim_win_set_buf(first_buffer_win, new_buf)
+  end
+end
+
 -- otan kaleitai apo fg, tote sta opts prepei na orizei to search_value na mhn einai yank, alla cword
 
 -- I use the telescope live_grep_args extension so that it is possible to manipulate the live search interactively.
@@ -151,6 +187,8 @@ function M.find_in_files(opts)
   local search_value
   local search_expression
 
+  M.load_buffer()
+
   if opts.search_key_source == "yank" or node.type == "directory" then
     search_value = M.get_register_value { sanitize = true }
     search_expression = string.format('"%s"', search_value)
@@ -165,38 +203,6 @@ function M.find_in_files(opts)
   if node.type == "directory" then
     local dir_name = node.name
     search_expression = search_expression .. string.format(" --iglob=**/%s/**/*", dir_name)
-
-    -- The below is used because if no buffer is loaded prior to a search (this can happen if you search from nvim-tree directory),
-    -- then strange errors appear and nvim becomes unresponsive
-    local is_buffer_loaded = false
-    local buffers = vim.api.nvim_list_bufs()
-    -- Iterate over the buffer handles to find open buffers
-    for _, buf in ipairs(buffers) do
-      -- Check if the buffer is loaded and listed
-      if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
-        is_buffer_loaded = true
-
-        local loaded_buffer = "Buffer ID: " .. buf .. ", Name: " .. vim.api.nvim_buf_get_name(buf)
-        -- This is left for debugging
-        -- vim.notify(loaded_buffer)
-      end
-    end
-
-    -- vim.notify("Buffer Loaded: " .. tostring(is_buffer_loaded))
-
-    if not is_buffer_loaded then
-      local new_buf = vim.api.nvim_create_buf(true, false)
-
-      -- Set the newly created buffer in the window of the first buffer
-      -- (hopefully this will replace the No Name buffer when nvim first starts without a file)
-      for _, win in ipairs(vim.api.nvim_list_wins()) do
-        if vim.api.nvim_win_get_buf(win) == 1 then
-          first_buffer_win = win
-          break
-        end
-      end
-      vim.api.nvim_win_set_buf(first_buffer_win, new_buf)
-    end
   else
     search_expression = search_expression
   end
@@ -227,34 +233,33 @@ end
 
 function M.telescope(builtin, opts)
   local params = { builtin = builtin, opts = opts }
-  return function()
-    builtin = params.builtin
-    opts = params.opts
-    -- this merges the tables, but uses the rightmost table value (if cwd is false, then it will stay as is)
-    opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
-    if builtin == "files" then
-      if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
-        opts.show_untracked = true
-        builtin = "git_files"
-      else
-        builtin = "find_files"
-      end
+  M.load_buffer()
+  builtin = params.builtin
+  opts = params.opts
+  -- this merges the tables, but uses the rightmost table value (if cwd is false, then it will stay as is)
+  opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
+  if builtin == "files" then
+    if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
+      opts.show_untracked = true
+      builtin = "git_files"
+    else
+      builtin = "find_files"
     end
-    if opts.cwd and opts.cwd ~= vim.loop.cwd() then
-      opts.attach_mappings = function(_, map)
-        map("i", "<a-c>", function()
-          local action_state = require "telescope.actions.state"
-          local line = action_state.get_current_line()
-          M.telescope(params.builtin, vim.tbl_deep_extend("force", {}, params.opts or {}, { cwd = false, default_text = line }))()
-        end)
-        return true
-      end
-    end
-
-    -- vim.notify(vim.inspect(opts), nil, { title = plugin })
-    -- vim.notify(vim.inspect(builtin), nil, { title = plugin })
-    require("telescope.builtin")[builtin](opts)
   end
+  if opts.cwd and opts.cwd ~= vim.loop.cwd() then
+    opts.attach_mappings = function(_, map)
+      map("i", "<a-c>", function()
+        local action_state = require "telescope.actions.state"
+        local line = action_state.get_current_line()
+        M.telescope(params.builtin, vim.tbl_deep_extend("force", {}, params.opts or {}, { cwd = false, default_text = line }))()
+      end)
+      return true
+    end
+  end
+
+  -- vim.notify(vim.inspect(opts), nil, { title = plugin })
+  -- vim.notify(vim.inspect(builtin), nil, { title = plugin })
+  require("telescope.builtin")[builtin](opts)
 end
 
 function M.join_paths(...)

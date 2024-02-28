@@ -30,8 +30,8 @@ return {
     keys = {
       { "<leader><space>", require("utils").find_files, desc = "Find Files" },
       -- if current working directory contains .git, executes Git Files, otherwise Find Files
-      { "<leader>ff", require("utils").telescope("files"), desc = "Find Files (Root Dir)" },
-      { "<leader>fF", require("utils").telescope("files", { cwd = false }), desc = "Find Files (Cwd)" },
+      { "<leader>ff", function() require("utils").telescope("files") end, desc = "Find Files (Root Dir)" },
+      { "<leader>fF", function() require("utils").telescope("files", { cwd = false }) end, desc = "Find Files (Cwd)" },
       { "<leader>gf", require("plugins.telescope.pickers").git_diff_picker, desc = "Diff Files" },
       { "<leader>fo", "<cmd>Telescope frecency theme=dropdown previewer=false<cr>", desc = "Recent" },
       { "<leader>fb", "<cmd>Telescope buffers sort_mru=true ignore_current_buffer=true<cr>", desc = "Buffers" },
@@ -53,7 +53,7 @@ return {
       -- not really needed since I have now created a live args extension <C-r> mapping
       { "<leader>fr", function() require("utils").find_in_files({ search_key_source = "cword" }) end, desc = "Find/Replace in Files" },
       -- not really needed since I have now created a <C-r> mapping
-      { "<leader>fG", require("utils").telescope("live_grep", { cwd = false }), desc = "Grep (Cwd)" },
+      { "<leader>fG", function() require("utils").telescope("live_grep", { cwd = false }) end, desc = "Grep (Cwd)" },
       { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
       { "<leader>sb", function() require("telescope.builtin").current_buffer_fuzzy_find() end, desc = "Buffer", },
       { "<leader>vo", "<cmd>Telescope aerial<cr>", desc = "Code Outline" },
