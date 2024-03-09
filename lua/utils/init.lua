@@ -201,8 +201,9 @@ function M.find_in_files(opts)
   end
 
   if node.type == "directory" then
-    local dir_name = node.name
-    search_expression = search_expression .. string.format(" --iglob=**/%s/**/*", dir_name)
+    local dir_path = node.absolute_path
+        -- TODO
+    search_expression = search_expression .. string.format(" --iglob=%s/**/*", dir_path)
   else
     search_expression = search_expression
   end
