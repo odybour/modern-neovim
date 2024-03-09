@@ -202,8 +202,10 @@ function M.find_in_files(opts)
 
   if node.type == "directory" then
     local dir_path = node.absolute_path
-        -- TODO
-    search_expression = search_expression .. string.format(" --iglob=%s/**/*", dir_path)
+    local cwd = vim.fn.getcwd()
+    -- note: the #cwd gives the length of the cwd string
+    local diff = string.sub(dir_path, #cwd + 2)  
+    search_expression = search_expression .. string.format(" --iglob=%s/**/*", diff)
   else
     search_expression = search_expression
   end
