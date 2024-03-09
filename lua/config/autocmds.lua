@@ -153,3 +153,28 @@ vim.api.nvim_create_autocmd("VimEnter", {
     require("nvim-tree.api").tree.toggle { focus = false }
   end,
 })
+
+-- Define highlight groups
+-- vim.api.nvim_set_hl(0, "QuickFixFile1", {ctermbg = nil, ctermfg = "red", bg="Red", fg="Yellow"})
+-- vim.api.nvim_set_hl(0, "QuickFixFile2", {ctermbg = nil, ctermfg = "blue", bg="Red", fg="Yellow"})
+
+-- -- Function to set the highlight based on the file path
+-- local function setQuickFixHighlight()
+--     local filePath = vim.fn.expand('%:p') -- Get the full path of the current file
+--     if string.match(filePath, ".*/target/.*") then
+--         vim.api.nvim_set_hl(0, "QuickFixLine", {link = "QuickFixFile1"})
+--     elseif string.match(filePath, "pattern2") then
+--         vim.api.nvim_set_hl(0, "QuickFixLine", {link = "QuickFixFile2"})
+--     else
+--         -- Fallback to default highlight, assuming QuickFix is a predefined highlight
+--         -- If QuickFix isn't predefined, replace 'QuickFix' with a valid highlight group
+--         vim.api.nvim_set_hl(0, "QuickFixLine", {link = "QuickFixFile1"})
+--     end
+-- end
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "qf",
+--   callback = function()
+--     setQuickFixHighlight()
+--   end,
+-- })

@@ -62,6 +62,12 @@ return {
     },
   },
   {
+    "junegunn/fzf",
+    event = "VeryLazy",
+    enabled = true,
+    build = "./install --all",
+  },
+  {
     "kevinhwang91/nvim-bqf",
     opts = {
       filter = {
