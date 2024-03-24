@@ -66,6 +66,7 @@ local M = {
       { "nvim-telescope/telescope-dap.nvim" },
       { "jay-babu/mason-nvim-dap.nvim" },
       { "LiadOz/nvim-dap-repl-highlights", opts = {} },
+      { "nvim-neotest/nvim-nio" },
     },
   -- stylua: ignore
   keys = {
