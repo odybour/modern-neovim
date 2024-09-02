@@ -2,6 +2,7 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
+    version = "0.1.4",
     dependencies = {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       "nvim-telescope/telescope-file-browser.nvim",
@@ -23,7 +24,7 @@ return {
         opts = {},
       },
       "jvgrootveld/telescope-zoxide",
-      "nvim-telescope/telescope-live-grep-args.nvim",
+      { "nvim-telescope/telescope-live-grep-args.nvim", version = "^1.0.0" },
     },
     cmd = "Telescope",
     -- stylua: ignore
@@ -297,7 +298,7 @@ return {
             theme = "dropdown",
           },
           live_grep_args = {
-            prompt_title = "Live Grep - Tip: Use ?, -ws, --iglob=dir/*, wrap with \"\" or <C-k>, <C-r> to replace. cdo to cfdo (then a) for Replace All",
+            prompt_title = 'Live Grep - Tip: Use ?, -ws, --iglob=dir/*, wrap with "" or <C-k>, <C-r> to replace. cdo to cfdo (then a) for Replace All',
             auto_quoting = true, -- enable/disable auto-quoting
             -- define mappings, e.g.
             mappings = { -- extend mappings
