@@ -144,13 +144,14 @@ vim.api.nvim_create_autocmd("FileType", {
 --   end,
 -- })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    -- required to display folding arrows without requiring to type zr
-    require("ufo").openFoldsExceptKinds()
-    -- opens nvim-tree at startup: https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup
-    -- and focuses on file (not the tree)
-    require("nvim-tree.api").tree.toggle { focus = false }
-  end,
-})
+-- TODO: i have disabled ufo, and commented this out, because it does not work with yaml
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   callback = function()
+--     -- required to display folding arrows without requiring to type zr
+--     require("ufo").openFoldsExceptKinds()
+--     -- opens nvim-tree at startup: https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup
+--     -- and focuses on file (not the tree)
+--     require("nvim-tree.api").tree.toggle { focus = false }
+--   end,
+-- })
 

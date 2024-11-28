@@ -50,6 +50,7 @@ return {
         end,
       },
     },
+    enabled = false, -- TODO does not work well with yaml FIXME
     --stylua: ignore
     keys = {
       { "zc" },
