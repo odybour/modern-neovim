@@ -5,6 +5,7 @@ return {
       "meuter/lualine-so-fancy.nvim",
       { "Pheon-Dev/pigeon", opts = {} },
     },
+    enabled = false,
     event = "VeryLazy",
     opts = function()
       local components = require "plugins.statusline.components"
