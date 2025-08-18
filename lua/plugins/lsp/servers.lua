@@ -96,7 +96,9 @@ function M.setup(_, opts)
   local has_mason, mlsp = pcall(require, "mason-lspconfig")
   local all_mslp_servers = {}
   if has_mason then
-    all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+    -- List all available servers
+    all_mslp_servers = mlsp.get_available_servers()
+    -- vim.notify(vim.inspect(servers), nil)
   end
 
   local ensure_installed = {} ---@type string[]
@@ -114,7 +116,9 @@ function M.setup(_, opts)
 
   if has_mason then
     mlsp.setup { ensure_installed = ensure_installed }
-    mlsp.setup_handlers { setup }
+    -- TODO FIX
+--     https://stackoverflow.com/questions/79650103/setting-up-handlers-for-mason-lspconfig-in-neovim-with-luasnip-returns-a-nil-val
+--     mlsp.setup_handlers { setup }
   end
 end
 

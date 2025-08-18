@@ -165,6 +165,10 @@ function grabTextInsideParentheses()
   return text_inside
 end
 
+-- keymap("n", "vd", ":lua vim.fn.system('tmux split-window -v vd ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path)<CR>")
+keymap("n", "vp", ":lua os.execute('dolphin ' .. require('nvim-tree.api').tree.get_node_under_cursor().absolute_path .. ' &')<CR>")
+
+
 -- this does not seem to work.. what are the <, >? I switched to get_word_under_cursor. much easier to implement using cword
 -- I leave it here in case I need this in the future.. don't know.
 -- UPDATE: there is a grep_visual_selection implementation (argument) in telescope live grep args plugin. worth checking maybe
