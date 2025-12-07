@@ -35,7 +35,7 @@ return {
         "html",
         "markdown",
         "markdown_inline",
-        "org",
+        "lua",
         "query",
         "regex",
         "latex",
@@ -43,7 +43,7 @@ return {
         "vimdoc",
         "yaml",
       },
-      highlight = { enable = false, additional_vim_regex_highlighting = { "org", "markdown" } },
+      highlight = { enable = false, additional_vim_regex_highlighting = { "lua", "markdown" } },
       indent = { enable = true },
       incremental_selection = {
         enable = true,

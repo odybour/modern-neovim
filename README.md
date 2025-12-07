@@ -2,7 +2,9 @@
 
 ## Structure - Plugins
 
-Configure `lazy.nvim` to manage all plugins under the `lua/plugins` folder.
+Configur e`lazy.nvim` to manage all plugins under the `lua/plugins` folder.
+rt DISPLAY=:1
+
 
 `lazy.nvim` makes it very easy and flexible to configure plugins. For our configuration:
 
@@ -241,6 +243,23 @@ Useful commands:
 Semantic highlighting:
 
 <https://gist.github.com/swarn/fb37d9eefe1bc616c2a7e476c0bc0316>
+
+* VS Code integration
+
+https://github.com/vscode-neovim/vscode-neovim/wiki/Plugins#lazy-plugin-management
+
+You will need to disable some plugins. You can easily do this with
+
+    cond = (function() return not vim.g.vscode end)
+
+What plugins:
+
+    https://marketplace.visualstudio.com/items?itemName=asvetliakov.vscode-neovim
+
+    ->
+    Line number extensions (VSCode has built-in support for normal/relative line numbers)
+    Indent guide extensions (VSCode has built-in indent guides)
+    Brackets highlighter extensions (VSCode has built-in feature)
 
 ### LSP
 

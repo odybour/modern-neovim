@@ -31,6 +31,7 @@ return {
   {
     "catppuccin/nvim",
     lazy = true,
+    cond = (function() return not vim.g.vscode end),
     name = "catppuccin",
     opts = {
       integrations = {
@@ -68,6 +69,7 @@ return {
   {
     "sainnhe/gruvbox-material",
     enabled = true,
+    cond = (function() return not vim.g.vscode end),
     lazy = false,
     name = "gruvbox-material",
     config = function()
