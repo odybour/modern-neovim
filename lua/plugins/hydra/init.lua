@@ -206,6 +206,7 @@ end
 return {
   {
     "anuvyklack/hydra.nvim",
+    enabled=false,
     event = { "BufReadPre" },
     opts = {
       specs = {

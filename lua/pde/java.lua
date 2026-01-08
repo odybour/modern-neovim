@@ -1,5 +1,5 @@
 -- Immediately return if running inside VSCode (don't load java module)
-if not vim.g.vscode then
+if vim.g.vscode then
   return {}
 end
 
