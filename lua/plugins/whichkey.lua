@@ -19,97 +19,85 @@ return {
     },
     event = "VeryLazy",
     opts = {
-      setup = {
-        show_help = true,
-        plugins = { spelling = true },
-        key_labels = { ["<leader>"] = "SPC" },
-        triggers = "auto",
-        window = {
-          border = "single", -- none, single, double, shadow
-          position = "bottom", -- bottom, top
-          margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-          padding = { 1, 1, 1, 1 }, -- extra window padding [top, right, bottom, left]
-          winblend = 0,
-        },
-        layout = {
-          height = { min = 4, max = 25 }, -- min and max height of the columns
-          width = { min = 20, max = 50 }, -- min and max width of the columns
-          spacing = 3, -- spacing between columns
-          align = "left", -- align columns left, center or right
+      preset = "modern",
+      plugins = { spelling = true },
+      replace = {
+        key = {
+          { "<Space>", "SPC" },
+          { "<leader>", "SPC" },
         },
       },
-      defaults = {
-        prefix = "<leader>",
+      triggers = {
+        { "<auto>", mode = "nixsotc" },
+      },
+      win = {
+        border = "single",
+        padding = { 1, 1 },
+      },
+      layout = {
+        height = { min = 4, max = 25 },
+        width = { min = 20, max = 50 },
+        spacing = 3,
+        align = "left",
+      },
+      spec = {
         mode = { "n", "v" },
-        w = { "<cmd>update!<CR>", "Save" },
-        -- stylua: ignore
-        q = { name = "Quit/Session",
-          q = { function() require("utils").quit() end, "Quit", },
-          t = { "<cmd>tabclose<cr>", "Close Tab" },
-        },
-        a = { name = "+AI" },
-        b = { name = "+Buffer" },
-        d = { name = "+Debug" },
-        D = { name = "+Database" },
-        -- stylua: ignore
-        f = {
-          name = "+File" ,
-          t = { function() require("utils").open_term("yazi") end, "Terminal File Manager", },
-        },
-        h = { name = "+Help" },
-        j = { name = "+Jump" },
-        g = { name = "+Git", h = { name = "+Hunk" }, t = { name = "+Toggle" }, w = { name = "+Work Tree" } },
-        n = { name = "+Notes" },
-        p = { name = "+Project" },
-        -- o = { name = "+Orgmode" },
-        r = { name = "+Refactor" },
-        t = { name = "+Test", N = { name = "+Neotest" }, o = { "+Overseer" } },
-        v = { name = "+View" },
-        z = { name = "+System" },
-        -- stylua: ignore
-        s = {
-          name = "+Search",
-          c = { function() require("utils.coding").cht() end, "Cheatsheets", },
-          o = { function() require("utils.coding").stack_overflow() end, "Stack Overflow", },
-        },
-        l = {
-          name = "+Language",
-          g = { name = "Annotation" },
-          x = {
-            name = "Swap Next",
-            f = "Function",
-            p = "Parameter",
-            c = "Class",
-          },
-          X = {
-            name = "Swap Previous",
-            f = "Function",
-            p = "Parameter",
-            c = "Class",
-          },
-        },
-        c = {
-          name = "ChatGPT",
-          c = { "<cmd>ChatGPT<CR>", "ChatGPT" },
-          e = { "<cmd>ChatGPTEditWithInstruction<CR>", "Edit with instruction", mode = { "n", "v" } },
-          g = { "<cmd>ChatGPTRun grammar_correction<CR>", "Grammar Correction", mode = { "n", "v" } },
-          t = { "<cmd>ChatGPTRun translate<CR>", "Translate", mode = { "n", "v" } },
-          k = { "<cmd>ChatGPTRun keywords<CR>", "Keywords", mode = { "n", "v" } },
-          d = { "<cmd>ChatGPTRun docstring<CR>", "Docstring", mode = { "n", "v" } },
-          a = { "<cmd>ChatGPTRun add_tests<CR>", "Add Tests", mode = { "n", "v" } },
-          o = { "<cmd>ChatGPTRun optimize_code<CR>", "Optimize Code", mode = { "n", "v" } },
-          s = { "<cmd>ChatGPTRun summarize<CR>", "Summarize", mode = { "n", "v" } },
-          f = { "<cmd>ChatGPTRun fix_bugs<CR>", "Fix Bugs", mode = { "n", "v" } },
-          x = { "<cmd>ChatGPTRun explain_code<CR>", "Explain Code", mode = { "n", "v" } },
-          r = { "<cmd>ChatGPTRun roxygen_edit<CR>", "Roxygen Edit", mode = { "n", "v" } },
-          l = { "<cmd>ChatGPTRun code_readability_analysis<CR>", "Code Readability Analysis", mode = { "n", "v" } },
-        },
+        { "<leader>w", "<cmd>update!<CR>", desc = "Save" },
+        { "<leader>q", group = "Quit/Session" },
+        { "<leader>qq", function() require("utils").quit() end, desc = "Quit" },
+        { "<leader>qt", "<cmd>tabclose<cr>", desc = "Close Tab" },
+        { "<leader>a", group = "AI" },
+        { "<leader>b", group = "Buffer" },
+        { "<leader>d", group = "Debug" },
+        { "<leader>D", group = "Database" },
+        { "<leader>f", group = "File" },
+        { "<leader>ft", function() require("utils").open_term("yazi") end, desc = "Terminal File Manager" },
+        { "<leader>h", group = "Help" },
+        { "<leader>j", group = "Jump" },
+        { "<leader>g", group = "Git" },
+        { "<leader>gh", group = "Hunk" },
+        { "<leader>gt", group = "Toggle" },
+        { "<leader>gw", group = "Work Tree" },
+        { "<leader>n", group = "Notes" },
+        { "<leader>p", group = "Project" },
+        { "<leader>r", group = "Refactor" },
+        { "<leader>t", group = "Test" },
+        { "<leader>tN", group = "Neotest" },
+        { "<leader>to", desc = "Overseer" },
+        { "<leader>v", group = "View" },
+        { "<leader>z", group = "System" },
+        { "<leader>s", group = "Search" },
+        { "<leader>sc", function() require("utils.coding").cht() end, desc = "Cheatsheets" },
+        { "<leader>so", function() require("utils.coding").stack_overflow() end, desc = "Stack Overflow" },
+        { "<leader>l", group = "Language" },
+        { "<leader>lg", group = "Annotation" },
+        { "<leader>lx", group = "Swap Next" },
+        { "<leader>lxf", desc = "Function" },
+        { "<leader>lxp", desc = "Parameter" },
+        { "<leader>lxc", desc = "Class" },
+        { "<leader>lX", group = "Swap Previous" },
+        { "<leader>lXf", desc = "Function" },
+        { "<leader>lXp", desc = "Parameter" },
+        { "<leader>lXc", desc = "Class" },
+        { "<leader>c", group = "ChatGPT" },
+        { "<leader>cc", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+        { "<leader>ce", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction", mode = { "n", "v" } },
+        { "<leader>cg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction", mode = { "n", "v" } },
+        { "<leader>ct", "<cmd>ChatGPTRun translate<CR>", desc = "Translate", mode = { "n", "v" } },
+        { "<leader>ck", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords", mode = { "n", "v" } },
+        { "<leader>cd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring", mode = { "n", "v" } },
+        { "<leader>ca", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests", mode = { "n", "v" } },
+        { "<leader>co", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code", mode = { "n", "v" } },
+        { "<leader>cs", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize", mode = { "n", "v" } },
+        { "<leader>cf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs", mode = { "n", "v" } },
+        { "<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code", mode = { "n", "v" } },
+        { "<leader>cr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit", mode = { "n", "v" } },
+        { "<leader>cl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis", mode = { "n", "v" } },
       },
     },
     config = function(_, opts)
       local wk = require "which-key"
-      wk.setup(opts.setup)
-      wk.register(opts.defaults)
+      wk.setup(opts)
     end,
   },
 }

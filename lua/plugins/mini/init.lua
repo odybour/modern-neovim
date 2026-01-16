@@ -82,11 +82,29 @@ return {
           i[key] = vim.tbl_extend("force", { name = "Inside " .. name .. " textobject" }, ic)
           a[key] = vim.tbl_extend("force", { name = "Around " .. name .. " textobject" }, ac)
         end
-        require("which-key").register {
-          mode = { "o", "x" },
-          i = i,
-          a = a,
-        }
+        
+        -- Convert to which-key v3 spec format
+        local spec = { mode = { "o", "x" } }
+        
+        -- Add 'i' mappings
+        for key, desc in pairs(i) do
+          if type(desc) == "string" then
+            table.insert(spec, { "i" .. key, desc = desc })
+          elseif type(desc) == "table" and desc.name then
+            table.insert(spec, { "i" .. key, group = desc.name })
+          end
+        end
+        
+        -- Add 'a' mappings
+        for key, desc in pairs(a) do
+          if type(desc) == "string" then
+            table.insert(spec, { "a" .. key, desc = desc })
+          elseif type(desc) == "table" and desc.name then
+            table.insert(spec, { "a" .. key, group = desc.name })
+          end
+        end
+        
+        require("which-key").add(spec)
       end
     end,
   },

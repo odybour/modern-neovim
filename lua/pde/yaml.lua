@@ -25,27 +25,26 @@ return {
       servers = {
         yamlls = {
           -- lazy-load schemastore when needed
-          on_new_config = function(new_config)
-            new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
-            vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
+          settings = function()
+            return {
+              redhat = { telemetry = { enabled = false } },
+              yaml = {
+                keyOrdering = false,
+                format = {
+                  enable = true,
+                },
+                validate = { enable = true },
+                schemas = require("schemastore").yaml.schemas(),
+                schemaStore = {
+                  -- Must disable built-in schemaStore support to use
+                  -- schemas from SchemaStore.nvim plugin
+                  enable = false,
+                  -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                  url = "",
+                },
+              },
+            }
           end,
-          settings = {
-            redhat = { telemetry = { enabled = false } },
-            yaml = {
-              keyOrdering = false,
-              format = {
-                enable = true,
-              },
-              validate = { enable = true },
-              schemaStore = {
-                -- Must disable built-in schemaStore support to use
-                -- schemas from SchemaStore.nvim plugin
-                enable = false,
-                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                url = "",
-              },
-            },
-          },
         },
       },
     },

@@ -84,7 +84,14 @@ function M.setup(_, opts)
         return
       end
     end
-    require("lspconfig")[server].setup(server_opts)
+    
+    -- Use new vim.lsp.config API instead of lspconfig
+    if vim.lsp.config then
+      vim.lsp.enable(server, server_opts)
+    else
+      -- Fallback for older Neovim versions
+      require("lspconfig")[server].setup(server_opts)
+    end
   end
 
   -- Add bun for Node.js-based servers
