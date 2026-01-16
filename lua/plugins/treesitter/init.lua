@@ -38,7 +38,7 @@ return {
         "lua",
         "query",
         "regex",
-        "latex",
+        -- "latex",  -- Requires tree-sitter CLI to generate
         "vim",
         "vimdoc",
         "yaml",
